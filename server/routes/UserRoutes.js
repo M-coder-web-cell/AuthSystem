@@ -1,6 +1,6 @@
 import express from 'express'
 import {signup, login, logout, protect, forgotPasswordTokenGenerator, resetPassword} from "../controllers/AuthControllers.js"
-import { getOwnUserInfo } from '../controllers/UserControllers.js'
+import { getOwnUserInfo, resetPassPage} from '../controllers/UserControllers.js'
 import { MailSender} from '../controllers/MailControllers.js'
 
 const UserRouter = express.Router()
@@ -25,4 +25,8 @@ UserRouter
 UserRouter
     .route(`/resetPassword/:resetToken`)
     .post(resetPassword)
+UserRouter
+    .route(`/reset/:token`)
+    .get(resetPassPage)
+
 export {UserRouter}

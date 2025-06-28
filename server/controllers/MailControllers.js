@@ -14,138 +14,86 @@ const transporter = nodemailer.createTransport({
 
 const MailSender = async (req, res) =>{
     
-    const resetLink = `http://localhost:5173/users/forgotpassword/${req.resetToken}`
+    const resetLink = `http://localhost:4000/api/Auth/reset/${req.resetToken}`
 
     const resetPassMail = {
       from: 'mazumdarmrinmoy51@gmail.com',
       to: req.body.email,
       subject: 'Password Reset Request',
-      html: `
+      html: `<!DOCTYPE html>
+      <html>
         <head>
-          <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;700;800"
-          />
-          <title>Stitch Design</title>
+          <meta charset="UTF-8">
+          <title>Reset Your Password</title>
           <style>
+            /* Fallback styles for email clients */
             body {
               margin: 0;
-              background-color: #f8fafc;
-              font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
+              padding: 0;
+              background-color: #f4f4f4;
             }
-
             .container {
-              display: flex;
-              flex-direction: column;
-              min-height: 100vh;
-              overflow-x: hidden;
+              width: 100%;
+              table-layout: fixed;
+              background-color: #f4f4f4;
+              padding: 20px 0;
             }
-
-            .layout {
-              display: flex;
-              flex: 1;
-              justify-content: center;
-              padding: 4vh 8vw; /* vertical and horizontal padding */
+            .main {
+              background-color: #ffffff;
+              max-width: 600px;
+              margin: 0 auto;
+              border-radius: 8px;
+              font-family: Arial, sans-serif;
             }
-
             .content {
-              width: 100%;
-              max-width: 80vw;
-              padding: 4vh 0;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-            }
-
-            h2 {
-              color: #0e161b;
-              font-size: 2.5vh;
-              font-weight: bold;
+              padding: 30px;
               text-align: center;
-              padding: 2vh 2vw 1.5vh 2vw;
-              margin: 0;
             }
-
+            h1 {
+              color: #333333;
+            }
             p {
-              color: #0e161b;
-              font-size: 2vh;
-              font-weight: normal;
-              text-align: center;
-              padding: 1vh 2vw;
-              margin: 0;
+              color: #555555;
+              line-height: 1.5;
             }
-
-            .button-container {
-              display: flex;
-              justify-content: center;
-              padding: 2vh 2vw;
-            }
-
             .button {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              min-width: 20vw;
-              max-width: 60vw;
-              height: 5vh;
-              padding: 0 3vw;
-              background-color: #1993e5;
-              color: #f8fafc;
-              font-size: 1.8vh;
-              font-weight: bold;
-              border: none;
-              border-radius: 1vh;
-              cursor: pointer;
+              display: inline-block;
+              margin-top: 20px;
+              padding: 12px 24px;
+              background-color: #007bff;
+              color: #ffffff;
               text-decoration: none;
+              border-radius: 4px;
+              font-weight: bold;
             }
-
-            .button span {
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-            }
-
-            .text-muted {
-              color: #4e7a97;
-              font-size: 1.5vh;
+            .footer {
+              font-size: 12px;
+              color: #999999;
               text-align: center;
-              padding: 1vh 2vw;
-            }
-
-            .underline {
-              text-decoration: underline;
-            }
-
-            .spacer {
-              height: 4vh;
-              width: 100%;
+              padding: 20px;
             }
           </style>
         </head>
-
         <body>
           <div class="container">
-            <div class="layout">
-              <div class="content">
-                <div class="spacer"></div>
-                <h2>Welcome back, Alex</h2>
-                <p>You recently requested to reset your password. Click the button below to proceed.</p>
-                <div class="button-container">
-                  <a href="#" class="button">
-                    <span>Reset Password</span>
-                  </a>
-                </div>
-                <p class="text-muted">If you didn't request a password reset, please ignore this email or contact support.</p>
-                <p class="text-muted underline">Contact Support</p>
-                <div class="spacer"></div>
-              </div>
+            <table class="main" width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="content">
+                  <h1>Reset Your Password</h1>
+                  <p>Hello,</p>
+                  <p>We received a request to reset your password. Click the button below to set a new password.</p>
+                  <a href= ${resetLink} id="Reset-Button" class="button">Reset Password</a>
+                  <p>If you didn’t request a password reset, you can ignore this email.</p>
+                </td>
+              </tr>
+            </table>
+            <div class="footer">
+              &copy; 2025 Your Company. All rights reserved.
             </div>
           </div>
         </body>
+      </html> `
 
-
-      `
     };
     const SendMail = await transporter.sendMail(resetPassMail)
     
